@@ -15,7 +15,7 @@ NN = 256
 B = 0x496        // starting address of matrix B ([NxN] + Addr_A)
 C = 0x752        // starting address of matrix C (Result matrix)
 . = I            // start benchmark program here
-test: // test=.
+test:
   CMOVE(N,R0)    // initialize outloop index i
   CMOVE(N,R1)    // inner_loop index j
   CMOVE(0,R2)    // temporary result containers
@@ -28,26 +28,17 @@ test: // test=.
                  // R4 and R6 contain addresses converted to byte offset
   MUL(R0,R1,R12) // R12 contains full size of C result matrix
   SUBC(R12,1,R12)
-
-multi:
-  MUL(R3,R5,R7)
-store:
-  ADD(R7,R2,R2)
-  ST(R12,C,R2)
-
-
-
-outloop:
   SUBC(R0,1,R0)
   SUBC(R1,1,R1)
+
+loop:
   MULC(R0,N,R8)
   MULC(R1,N,R9)
-inloop:
   ADD(R8,R10,R8)
   ADD(R9,R11,R9)
+multi:
   MULC(R8,4,R4)
   MULC(R9,4,R6)
-multi:
   LD(R4,A,R3)
   LD(R6,B,R5)
   MUL(R3,R5,R7)
@@ -55,7 +46,13 @@ store:
   ADD(R7,R2,R2)
   ST(R12,C,R2)
   SUBC(R11,1,R11)
-  BNE()
+  SUBC(R10,1,R10)
+  SUBC(R8,1,R8)
+  SUBC(R9,1,R9)
+  BNE(R11,multi)
+  SUBC(R0,1,R0)
+  SUBC(R1,1,R1)
+  BNE(R0,loop)
   SUBC(R12,1,R12)
   BNE(R12,loop)
   BR(test)
