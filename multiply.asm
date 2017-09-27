@@ -9,11 +9,11 @@
   BR(test)        // branch to the start of the benchmark
 
 I = 0x200        // location of benchmark program
-A = 0x240        // starting address of matrix A
+A = 0x440        // starting address of matrix A
 N = 16           // size of data region (in words)
 NN = N*N
-B = NN + A        // starting address of matrix B ([NxN] + Addr_A)
-C = NN + B        // starting address of matrix C (Result matrix)
+B = 4*NN + A        // starting address of matrix B ([NxN] + Addr_A)
+C = 4*NN + B        // starting address of matrix C (Result matrix)
 . = I            // start benchmark program here
 test:
   CMOVE(N,R0)    // initialize outloop index i
@@ -59,8 +59,8 @@ store:
   BR(test)
 
 // allocate space to hold array
-//. = A
-  STORAGE(3*NN)     // N words
+. = A
+  STORAGE(4*NN)     // N words
 //. = B
 //  STORAGE(NN)
 //. = C
