@@ -11,9 +11,9 @@
 I = 0x200        // location of benchmark program
 A = 0x240        // starting address of matrix A
 N = 16           // size of data region (in words)
-NN = 256
-B = 0x496        // starting address of matrix B ([NxN] + Addr_A)
-C = 0x752        // starting address of matrix C (Result matrix)
+NN = N*N
+B = NN + A        // starting address of matrix B ([NxN] + Addr_A)
+C = NN + B        // starting address of matrix C (Result matrix)
 . = I            // start benchmark program here
 test:
   CMOVE(N,R0)    // initialize outloop index i
@@ -55,20 +55,13 @@ store:
   BNE(R0,loop)
   SUBC(R12,1,R12)
   BNE(R12,loop)
+
   BR(test)
-//  loop:            // add up elements in array
-//   SUBC(R0,1,R0)  // decrement index
-//   MULC(R0,4,R4)  // convert to byte offset
-//   LD(R4,A,R3)    // load value from A[J]
-//   ADD(R3,R2,R2)  // add to sum
-//   BNE(R0,loop)   // loop until all words are summed
-;
-;   BR(test)       // perform test again!
 
 // allocate space to hold array
-. = A
-  STORAGE(NN)     // N words
-. = B
-  STORAGE(NN)
-. = C
-  STORAGE(NN)
+//. = A
+  STORAGE(3*NN)     // N words
+//. = B
+//  STORAGE(NN)
+//. = C
+//  STORAGE(NN)
