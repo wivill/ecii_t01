@@ -20,8 +20,8 @@ test:
   CMOVE(NN-1,R1)    // index j
   CMOVE(NN-1,R2)    // index k
   CMOVE(NN-1,R3)    // index l
-  CMOVE(N,R4)   // Counter
-  CMOVE(N,R5)   // Counter
+  CMOVE(N-1,R4)   // Counter
+  CMOVE(N-1,R5)   // Counter
   CMOVE(0,R6)    // index result
   CMOVE(0,R7)    // C matrix index
   CMOVE(0,R8)   // Offset address container
