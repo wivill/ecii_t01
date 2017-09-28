@@ -31,6 +31,7 @@ test:
   CMOVE(0,R12)  // Offset address container
   CMOVE(0,R13)  // Value in A
   CMOVE(0,R14)  // Value in B
+  CMOVE(0,R15)  // Data to store
 multi:
   MULC(R0,4,R8)
   MULC(R1,4,R9)
@@ -41,8 +42,12 @@ load:
   LD(R8,A,R13)
   LD(R10,B,R14)
   MUL(R13,R14,R6)
+  ADD(R6,R15,R15)
+  SUBC(R8,4,R8)
+  SUBC(R10,4*N,R10)
+  SUBC(R4,1,R4)
 store:
-  ST(R6,C,R7)
+  ST(R15,C,R7)
 
 
   BR(test)
