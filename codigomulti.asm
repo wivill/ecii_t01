@@ -39,11 +39,11 @@ Multiplicar:
 
 loop1:
 	SUBC(R1, M, R6) // R6 = 3 - i
-  	BEQ(R6, EndLoops) // R6=0 => PC = loop3
+  BEQ(R6, test) // R6=0 => PC = loop3
 	SUBC(R3, M, R6) // R6 = 3 - k
-  	BEQ(R6, loop3) // R6=0 => PC = loop3
+  BEQ(R6, loop3) // R6=0 => PC = loop3
 	SUBC(R2, M, R6) // R6 = 3 - j
-  	BEQ(R6, loop2) // R6=0 => PC = loop2
+  BEQ(R6, loop2) // R6=0 => PC = loop2
 	MULC(R1,M,R4) //R4 = 3*R1 => 3*i
 	MULC(R2,M,R5) //R5 = 3*R2 => 3*j
 	ADD(R2,R4,R4) // R4 = R2 + 3*R1 => j+3*i
